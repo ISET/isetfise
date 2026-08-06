@@ -144,6 +144,31 @@ oi = oiSet(oi,'name',sprintf('%.1f-defocus',D));
 
 v3 = ieAddObject(oi); oiWindow;
 
+%% Video: image appearance across a defocus sweep
+% Recompute the optical image from perfect focus through 5 diopters of
+% defocus.  The RGB renderings have a common size and can be written
+% directly as an MP4 sequence for the published tutorial.
+
+defocusValues = linspace(0,5,24);
+for ii = 1:numel(defocusValues)
+    sweepDefocus = defocusValues(ii) * ones(size(wave));
+    [otf, sampleSFmm] = opticsDefocusCore(optics,sampleSF,sweepDefocus);
+    sweepOptics = opticsBuild2Dotf(optics,otf,sampleSFmm);
+
+    sweepOI = oiSet(oi,'optics',sweepOptics);
+    sweepOI = oiCompute(sweepOI,scene);
+    rgb = oiGet(sweepOI,'rgb image');
+    if ii == 1
+        defocusFrames = zeros([size(rgb),numel(defocusValues)]);
+    end
+    defocusFrames(:,:,:,ii) = rgb;
+end
+
+movieFile = fullfile(fileparts(mfilename('fullpath')),'video_opticsDefocusScene.mp4');
+ieMovie(defocusFrames,'vname',movieFile,'show',false,'FrameRate',8);
+
+%%
+% iePublishVideo: video_opticsDefocusScene.mp4
 
 %% Show the three optical image results in three windows
 imageMultiview('oi',[v1,v2,v3],true);
@@ -151,4 +176,4 @@ imageMultiview('oi',[v1,v2,v3],true);
 % Put back the wait bar status
 ieSessionSet('wait bar','off');
 
-%% 
+%%

@@ -1,23 +1,21 @@
 %% JPEG color compression review
-%
+%%
+% 
 %   AUTHOR:   X. Zhang, B. Wandell
 %   PURPOSE:  Develop JPEG compression in color
 %   DATE:     02.15.96
-% 
-% We integrate the basic DCT calculations with color
-% transformations.  We introduce YCbCr and some additional
-% discussion of chrominance subsampling and color lookup tables.
-% Finally, we try a simple experiment with jpeg compression by
-% switching the luminance and chrominance quantization tables.
-% 
-% Matlab 5:  Checked 01.06.98, BW
-% Matlab 7:  Checked 01.02.08  BW
 %
+%% 
+% We integrate the basic DCT calculations with color transformations. We introduce 
+% YCbCr and some additional discussion of chrominance subsampling and color lookup 
+% tables. Finally, we try a simple experiment with jpeg compression by switching 
+% the luminance and chrominance quantization tables.
+% 
+% Matlab 5: Checked 01.06.98, BW Matlab 7: Checked 01.02.08 BW
+% 
 % Copyright Imageval Consulting, LLC 
 
-%%
 ieInit
-
 %% JPEG compression of color image
 
 % Load in a color image.  This is an indexed color image.
@@ -111,27 +109,20 @@ title(sprintf('Chrominance quantization table for Q=%d',Q_factor));
 % done, look at the code in jpeg_qtables.
 % 
 % type jpeg_qtables
-
-
-
-%%  JPEG Color spaces:  YCbCr
-
-% Because the eye is insensitive to fine chromatic contrasts, we
-% can compress the chromatic components of an image more than the
-% light-dark component without much change in the image quality.
-% In JPEG this is accomplished by transforming the RGB signals
-% into a new color representation, commonly called Y,Cb,Cr, and
-% then compressing the chromatic components (Cb,Cr) more than the
-% luminance component (Y).
-
-% In principle, you  might imagine that the standard would take
-% into account the actual display you are using.  But, no.  Also,
-% in principle, you would imagine that the standard might work in
-% a space that reflected light intensity rather than frame
-% buffers.  But, no.
-
-% Rather, the transformation from RGB to YCbCr is hardcoded into
-% a matrix
+%% JPEG Color spaces: YCbCr
+% Because the eye is insensitive to fine chromatic contrasts, we can compress 
+% the chromatic components of an image more than the light-dark component without 
+% much change in the image quality. In JPEG this is accomplished by transforming 
+% the RGB signals into a new color representation, commonly called Y,Cb,Cr, and 
+% then compressing the chromatic components (Cb,Cr) more than the luminance component 
+% (Y).
+% 
+% In principle, you  might imagine that the standard would take into account 
+% the actual display you are using.  But, no.  Also, in principle, you would imagine 
+% that the standard might work in a space that reflected light intensity rather 
+% than frame buffers.  But, no.
+% 
+% Rather, the transformation from RGB to YCbCr is hardcoded into a matrix
 
 RGB2YCC = ...
     [ 0.2990 0.5870  0.1140; ...  
@@ -155,16 +146,15 @@ q1 = jpeg_qtables(qFactor, 1)
 % 
 q2 = jpeg_qtables(qFactor, 2) 
 
-% In general, the chrominance quantization table has larger
-% quantization steps sizes than the luminance one.  Also, it is
-% applied to THE SUBSAMPLED chrominance bands.  This saves a
-% great deal of space.  At this moment, this is not implemented
+%% 
+% In general, the chrominance quantization table has larger quantization steps 
+% sizes than the luminance one.  Also, it is applied to THE SUBSAMPLED chrominance 
+% bands.  This saves a great deal of space.  At this moment, this is not implemented 
 % in this tutorial, so we will simply use 
+% 
+% Now we compress the clown image using these quantization tables.
 
 q2 = q1;
-
-% Now we compress the clown image using these quantization
-% tables.
 Ycoef  = jpegCoef(Y, q1);
 Cbcoef = jpegCoef(Cb,q2);
 Crcoef = jpegCoef(Cr,q2);
@@ -187,60 +177,74 @@ bJPEG = truncate(yJPEG + 1.7720*CbJPEG - 0.0001*CrJPEG,0,255);
 Xjpeg(:,:,1) = rJPEG; Xjpeg(:,:,2) = gJPEG; Xjpeg(:,:,3) = bJPEG;
 vcNewGraphWin; imshow(Xjpeg/255);
 
-% Remember: In the usual JPEG implementation, the chromatic
-% planes (Cb,Cr) are subsampled by a factor of 2 before applying
-% the DCT.  This reduces the representation allocated to the
-% chromatic planes and saves lots more space.  It also changes
-% the meaning of the spatial frequencies in the q2 quantization
-% table.  All of this should be implemented as part of this
-% tutorial some day. 
-
+%% 
+% Remember: In the usual JPEG implementation, the chromatic planes (Cb,Cr) are 
+% subsampled by a factor of 2 before applying the DCT.  This reduces the representation 
+% allocated to the chromatic planes and saves lots more space.  It also changes 
+% the meaning of the spatial frequencies in the q2 quantization table.  All of 
+% this should be implemented as part of this tutorial some day.
 %% BEGIN TUTORIAL QUESTIONS
-%
-% 1) Describe the information content of each channel of the YCbCr color
-% space, in terms of what image properties the channels convey.
-%
-% 2) What property of color visual sensitivity makes it possible to obtain
-% the high compression ratio if we accept lossy compression? How does the
-% YCbCr color space take advantage of this visual system property? 
-%
-% 3)  Explore the visual impact of compressing color images in different
-% spaces.  Specifically, load a color image into R,G and B planes.  Then
-% make a version of the image in YCbCr space, using the linear
-% transformation above.
-%
+% 1) Describe the information content of each channel of the YCbCr color space, 
+% in terms of what image properties the channels convey.
+% 
+% 2) What property of color visual sensitivity makes it possible to obtain the 
+% high compression ratio if we accept lossy compression? How does the YCbCr color 
+% space take advantage of this visual system property? 
+% 
+% 3) Explore the visual impact of compressing color images in different spaces. 
+% Specifically, load a color image into R,G and B planes. Then make a version 
+% of the image in YCbCr space, using the linear transformation above.
+%%
+% 
 %   a)  Use the code from the tutorial to create a very aggressive
 %   quantization table. Use this table and compress the blue channel a lot.
 %   Then show the RGB image with the compressed blue channel.  (Quantize
 %   the other two channels with a q factor of 75.)
 %
+%%
+% 
 %   Reconstruct and show the result.  Describe what you see.
 %
+%%
+% 
 %   b) Use the same quantization tables to aggressively compress the Cb
 %   channel.  Reconstruct the image as in the tutorial, and show it. Which
 %   image looks better?  (Quantize the other two channels with a q factor
 %   of 75.)
 %
+%%
+% 
 %   Reconstruct and show the results.  Describe what you see.
 %
+%%
+% 
 %   c) To see what the different channels look like, try reconstructing
 %   an image with the CbJPEG set to zero.  Then try it with the CrJPEG set
 %   to zero.  Then try setting the Y channel to all values of 128.  This
 %   is a picture with no luminance, only chrominance.  
 %
+%% 
 % Bonus Question: 
-%
+%%
+% 
 %  In the Color Matching tutorial, we investigated the implications of
 %  adding a fourth phosphor (ie, channel) to our color monitor.  
 %
+%%
+% 
 %  Assume that the JPEG color gamut is a smaller subset of the visible
 %  gamut, and that the gamut of the three-primary monitor is itself a
 %  smaller subset of the JPEG gamut.  
 %
+%%
+% 
 %  In the color matching tutorial, we noted that the the fourth monitor
 %  primary allowed us to cover a larger area of the visible gamut.  
 %  a) Does the fourth primary help in the display of the JPEG image?
 %
+%%
+% 
 %  b) How would you modify JPEG to take full advantage of the new primary?
 %  Describe how your modification helps, and also any extra data costs.
-% (Extra bonus: modify the standard without any extra data costs)
+%  (Extra bonus: modify the standard without any extra data costs)
+%
