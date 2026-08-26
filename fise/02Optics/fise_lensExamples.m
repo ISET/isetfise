@@ -58,7 +58,7 @@ thisLens.draw; title(''); grid on;
 
 %{
 % Bug in 2024b
-fname = fullfile(fiseRootPath,'chapters','images','optics','09-morelens','double-gauss.svg');
+fname = fullfile(fiseBookPath,'chapters','images','optics','09-morelens','double-gauss.svg');
 exportgraphics(gcf,fname,'ContentType','vector');
 %}
 
@@ -127,7 +127,7 @@ thisLens.draw; title(''); grid on;
 
 %{
 % Bug in 2024b
-fname = fullfile(fiseRootPath,'chapters','images','optics','09-morelens','tessar.svg');
+fname = fullfile(fiseBookPath,'chapters','images','optics','09-morelens','tessar.svg');
 exportgraphics(gcf,fname,'ContentType','vector');
 %}
 
@@ -183,7 +183,7 @@ thisLens.draw; title(''); grid on;
 
 % {
 % Bug in 2024b
-fname = fullfile(fiseRootPath,'chapters','images','optics','09-morelens','fisheye.svg');
+fname = fullfile(fiseBookPath,'chapters','images','optics','09-morelens','fisheye.svg');
 exportgraphics(gcf,fname,'ContentType','vector');
 %}
 
@@ -239,7 +239,7 @@ thisLens.draw; title(''); grid on;
 
 %{
 % Bug in 2024b
-fname = fullfile(fiseRootPath,'chapters','images','optics','09-morelens','petzval.svg');
+fname = fullfile(fiseBookPath,'chapters','images','optics','09-morelens','petzval.svg');
 exportgraphics(gcf,fname,'ContentType','vector');
 %}
 

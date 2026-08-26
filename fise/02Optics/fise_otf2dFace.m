@@ -98,6 +98,6 @@ ax.GridLineStyle = '-'; % Set grid line style
 ax.LineWidth = 3; % Set grid line thickness
 
 %{
-theDir = fullfile(fiseRootPath,'chapters','images','optics');
+theDir = fullfile(fiseBookPath,'chapters','images','optics');
 exportgraphics(gcf,fullfile(theDir,'otf2dFace.png'));
 %}

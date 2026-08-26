@@ -23,11 +23,11 @@
 %   - SVG files showing cone activation maps for different eccentricities
 %   - SVG files showing cone activation maps for different wavelengths
 %   - All output files saved to: 
-%     fiseRootPath/chapters/images/human/02-spatial-encoding/
+%     fiseBookPath/chapters/images/human/02-spatial-encoding/
 %
 % Dependencies:
 %   - ISETBio toolbox
-%   - fiseRootPath.m
+%   - fiseBookPath.m
 %   - oiPosition function (for Polans2015 wavefront data)
 %
 % See also:
@@ -71,7 +71,7 @@ for ii=1:size(eccDegs,1)
     % This should work some day.
     % exportgraphics(gcf, fname, 'ContentType', 'vector');
     fname = sprintf('conePSF-%d-deg.svg',eccDegs(ii,1));
-    fname = fullfile(fiseRootPath,'chapters','images','human','02-spatial-encoding',fname);
+    fname = fullfile(fiseBookPath,'chapters','images','human','02-spatial-encoding',fname);
     if figsave, print(gcf,fname,'-dsvg'); end
 end
 
@@ -116,7 +116,7 @@ cm.plot('excitations', allE, 'label cones',false,...
     'plot title','Activation map','cones line width',0.5, ...
     'activation color map',activationMap);
 
-fname = fullfile(fiseRootPath,'chapters','images','human','02-spatial-encoding','conePSF-550.svg');
+fname = fullfile(fiseBookPath,'chapters','images','human','02-spatial-encoding','conePSF-550.svg');
 
 % This should work some day.
 % exportgraphics(gcf, fname, 'ContentType', 'vector');
@@ -150,7 +150,7 @@ cm.plot('excitations', allE, 'label cones',false,...
     'plot title','Activation map','cones line width',0.5, ...
     'activation color map',activationMap);
 
-fname = fullfile(fiseRootPath,'chapters','images','human','02-spatial-encoding','conePSF-480.svg');
+fname = fullfile(fiseBookPath,'chapters','images','human','02-spatial-encoding','conePSF-480.svg');
 
 % This should work some day.
 % exportgraphics(gcf, fname, 'ContentType', 'vector');

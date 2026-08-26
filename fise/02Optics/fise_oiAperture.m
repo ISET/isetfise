@@ -57,9 +57,9 @@ img = oiGet(oi,'rgb');
 imshow(img,'InitialMagnification',75);
 [~,figPSF] = oiPlot(oi,'psf'); axis square; colormap("default")
 % {
-fname = fullfile(fiseRootPath,'chapters','images','optics','06-geometric','pinhole-shape-rectangle.png');
+fname = fullfile(fiseBookPath,'chapters','images','optics','06-geometric','pinhole-shape-rectangle.png');
 exportgraphics(figPSF,fname);
-fname = fullfile(fiseRootPath,'chapters','images','optics','06-geometric','pinhole-shape-rectangle-img.png');
+fname = fullfile(fiseBookPath,'chapters','images','optics','06-geometric','pinhole-shape-rectangle-img.png');
 exportgraphics(figImg,fname);
 %}
 %% Flip the aspect ratio
@@ -128,6 +128,6 @@ end
 ieFigure([],'wide');
 montage(img,'Size',[1, numel(nsides)]);
 %{
-fname = fullfile(fiseRootPath,'chapters','images','optics','06-geometric','pinhole-shape-hdr.png');
+fname = fullfile(fiseBookPath,'chapters','images','optics','06-geometric','pinhole-shape-hdr.png');
 exportgraphics(gcf,fname);
 %}

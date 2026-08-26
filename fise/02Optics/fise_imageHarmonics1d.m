@@ -29,7 +29,7 @@ end
 
 %{
 % Uncomment to save the figure
-fname = fullfile(fiseRootPath, 'chapters', 'images', 'optics', 'optics-harmonics.png');
+fname = fullfile(fiseBookPath, 'chapters', 'images', 'optics', 'optics-harmonics.png');
 exportgraphics(gcf, fname); 
 %}
 
@@ -53,7 +53,7 @@ end
 
 %{
 % Uncomment to save the figure
- fname = fullfile(fiseRootPath, 'chapters', 'images', 'optics', 'optics-harmonics-1d.png');
+ fname = fullfile(fiseBookPath, 'chapters', 'images', 'optics', 'optics-harmonics-1d.png');
  exportgraphics(gcf, fname); 
 %}
 

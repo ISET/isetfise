@@ -19,7 +19,7 @@
 %%
 ieInit;
 fise_plotDefaults;
-imgDir = fullfile(fiseRootPath,'chapters','images','optics');
+imgDir = fullfile(fiseBookPath,'chapters','images','optics');
 
 %% Create the scene
 

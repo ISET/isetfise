@@ -45,7 +45,7 @@ for ii=1:size(eccDeg,1)
     ieFigureResize(hdl);
 
     fname = sprintf('coneMosaic-%d-deg.svg',eccDeg(ii,1));
-    fname = fullfile(fiseRootPath,'chapters','images','human','02-encoding',fname);
+    fname = fullfile(fiseBookPath,'chapters','images','human','02-encoding',fname);
     print(gcf,fname,'-dsvg');
     % pause;
 end

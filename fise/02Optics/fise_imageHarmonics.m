@@ -42,7 +42,7 @@ imagesc(x,x,img); colormap(gray);
 axis off image tight
 
 %{
-fname = fullfile(fiseRootPath,'chapters','images','optics','optics-harmonics.png');
+fname = fullfile(fiseBookPath,'chapters','images','optics','optics-harmonics.png');
 exportgraphics(gcf,fname);
 %}
 
@@ -61,7 +61,7 @@ for cx = [1 0.5 0.1]
 end
 
 %{
-fname = fullfile(fiseRootPath,'chapters','images','optics','optics-harmonics-1d.png');
+fname = fullfile(fiseBookPath,'chapters','images','optics','optics-harmonics-1d.png');
 exportgraphics(gcf,fname);
 %}
 

@@ -1,24 +1,24 @@
 %% FISE_MTF
 % Visualization of the MTF.
-% 
-% Create a scene sweep frequency. The frequency increases from left to right.  
+%
+% Create a scene sweep frequency. The frequency increases from left to right.
 % The contrast is 1 across all the rows (y-dimension).
-% 
-% Pass the scene through the default optics. Notice that the contrast amplitude 
-% decreases as frequency increases. 
-% 
-% The ratio of the scene amplitude (1) to the optical image amplitude is the 
-% frequency dependent scale factor $s_f$. A good approximation to the MTF is the 
+%
+% Pass the scene through the default optics. Notice that the contrast amplitude
+% decreases as frequency increases.
+%
+% The ratio of the scene amplitude (1) to the optical image amplitude is the
+% frequency dependent scale factor $s_f$. A good approximation to the MTF is the
 % envelope of the sweep frequency response.  This is plotted as the red curve.
-% 
-% Finally, notice that we did nothing to account for the edges.  So the contrast 
-% at the left and right edge is not really any good.  How we account for edges 
+%
+% Finally, notice that we did nothing to account for the edges.  So the contrast
+% at the left and right edge is not really any good.  How we account for edges
 % in finite cases like this is an endless annoyance.  Welcome to the club!
 %% *Initialize ISETCam*
-
 ieInit;
-figsave = true;
-imgdir = fullfile(fiseRootPath,'chapters','images','optics','11-transform');
+figsave = false;
+imgdir = fullfile(fiseBookPath,'chapters','images','optics','11-transform');
+
 %% Create the scene
 
 imSize = [256, 1024]; % row,col
@@ -44,37 +44,34 @@ oi = oiCompute(oi,scene,'crop',true);
 ax2 = fighdl.Children;
 ax2.Children(1).Color = [0.3 0.6 0.7];
 
-[upperEnvelope, lowerEnvelope] = envelope(-1*udata.data,5,'peak'); 
+[upperEnvelope, lowerEnvelope] = envelope(-1*udata.data,5,'peak');
 hold on;
 
 plot(udata.pos,-1*upperEnvelope,'r-');
 
 if figsave, exportgraphics(gca,'oisweep.png'); end
-%% 
-% 
 
-    % Create new figure with 1x2 tiles
-    f = figure;
-    t = tiledlayout(f,1,2,'TileSpacing','compact','Padding','compact');
+%{
+% Create new figure with 1x2 tiles
+f = figure;
+t = tiledlayout(f,1,2,'TileSpacing','compact','Padding','compact');
 
-    % --- Method A: copygraphics (recommended if available) ---
-    axNew1 = nexttile(t,1);
-    try
-        copygraphics(ax1, axNew1);    % R2020a+
-    catch
-        % Fallback to copyobj if copygraphics not available
-        copy_contents_fallback(ax1, axNew1);
-    end
+% --- Method A: copygraphics (recommended if available) ---
+axNew1 = nexttile(t,1);
+try
+    copygraphics(ax1, axNew1);    % R2020a+
+catch
+    % Fallback to copyobj if copygraphics not available
+    copy_contents_fallback(ax1, axNew1);
+end
 
-    axNew2 = nexttile(t,2);
-    try
-        copygraphics(ax2, axNew2);
-    catch
-        copy_contents_fallback(ax2, axNew2);
-    end
+axNew2 = nexttile(t,2);
+try
+    copygraphics(ax2, axNew2);
+catch
+    copy_contents_fallback(ax2, axNew2);
+end
 
-    drawnow;
+drawnow;
 
-
-%% 
-%
+%}edit
