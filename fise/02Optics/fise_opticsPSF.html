@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Shift-invariant PSF examples</title>
+<meta name="generator" content="MATLAB 25.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2026-08-05">
+<meta name="DC.source" content="fise_opticsPSF.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  html body { font-size:14px; }
+h1 { font-size:1.6em; }
+h2 { font-size:1.3em; margin-top:28px; }
+.content { max-width:900px; margin:0 auto; padding:30px; line-height:148%; }
+pre, code { font-size:13px; line-height:1.35; }
+pre.codeinput {
+  font-size:13px; border-radius:4px;
+  box-shadow:0 1px 3px rgba(0,0,0,.08); }
+pre.codeoutput {
+  font-size:13px; border-left:3px solid #6aaadd;
+  background:#f0f6fb; padding-left:14px; }
+img, video { display:block; margin:20px auto; }
+video { width:512px; max-width:100%; height:auto; }
+span.keyword { color:#0070c1 }
+span.comment { color:#2e7d32 }
+span.string  { color:#7b3f9e }
+pre.language-matlab {
+  font-size:13px; background:#f7f7f7; padding:10px;
+  border:1px solid #d3d3d3; border-left:3px solid #5aaa7a;
+  border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+code, tt { font-family:Menlo,Monaco,Consolas,"Courier New",monospace;
+  background:#efefef; padding:2px 5px; border-radius:3px;
+  font-size:0.88em; color:#333; }
+pre code, pre tt { background:none; padding:0; border-radius:0; font-size:inherit; }
+</style>
+</head>
+<body>
+<div class="content">
+<h1>Shift-invariant PSF examples</h1>
+<!--introduction-->
+<p>This script shows how to use shift-invariant optics with Gaussian, Lorentzian and Pillbox point spread functions (PSFs).</p>
+<p>The script calculates the impact of these PSFs on a simple grid scene, visualizing the outcome in an optical image window.</p>
+<p>PSFs are generated using <i>`siSynthetic`</i>, which supports various types and introduces wavelength-dependent chromatic aberrations. Read the siSynthetic function to learn how to create optics using a defined PSF. The utility <i>ieSaveSIDataFile</i> may also be helpful.</p>
+<p>
+<b>See also:</b> siSynthetic, ieSaveSIDataFile</p>
+<p>
+<b>Formatting notes:</b>
+</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">Initialize</a>
+</li>
+<li>
+<a href="#3">Create the scene</a>
+</li>
+<li>
+<a href="#4">Example 1: Create a pillbox point spread function</a>
+</li>
+<li>
+<a href="#5">Example 2: A wavelength-dependent Lorentizian</a>
+</li>
+<li>
+<a href="#6">Example 3: A circular Gaussian PSF that changes with wavelength</a>
+</li>
+<li>
+<a href="#7">Diffraction limited</a>
+</li>
+<li>
+<a href="#8">Compare multiple oi images</a>
+</li>
+<li>
+<a href="#9">Plot the cross sections</a>
+</li>
+<li>
+<a href="#10">A shift invariant bivariate normal psf</a>
+</li>
+<li>
+<a href="#11">Show the PSF as a function of wavelength in a movie</a>
+</li>
+<li>
+<a href="#12">Compare a horizontal and vertical line</a>
+</li>
+<li>
+<a href="#13">Plot the spectral irradiance of a horizontal and a vertical line</a>
+</li>
+</ul>
+</div>
+<div>
+<ul>
+<li>Export to HTML in the code/ directory</li>
+<li>Run: fise_setHTMLImageSize('fise_opticsPSF.html', 'fise_opticsPSF.html', 600)</li>
+<li>Visualize using: web('fise_opticsPSF.html')</li>
+</ul>
+</div>
+<h2 id="2">Initialize</h2>
+<pre class="codeinput">ieInit;
+fise_plotDefaults;
+imgDir = fullfile(fiseRootPath,<span class="string">'chapters'</span>,<span class="string">'images'</span>,<span class="string">'optics'</span>);
+</pre>
+<pre class="codeoutput error">Unrecognized function or variable 'fiseRootPath'.
+
+Error in fise_opticsPSF (line 25)
+imgDir = fullfile(fiseRootPath,'chapters','images','optics');
+                  ^^^^^^^^^^^^</pre>
+<h2 id="3">Create the scene</h2>
+<pre class="codeinput">imSize = [256 256];
+spacing = 64;
+thickness = 3;
+scene = sceneCreate(<span class="string">'grid lines'</span>,imSize,spacing,<span class="string">'ee'</span>,thickness);
+
+<span class="comment">% We make a small field of view so that we close up view of the details.</span>
+scene = sceneSet(scene,<span class="string">'fov'</span>,2);
+
+sceneWindow(scene);
+
+oi = oiCreate(<span class="string">'psf'</span>);
+</pre>
+<h2 id="4">Example 1: Create a pillbox point spread function</h2>
+<p>The pillbox was often used in the past because it can be computed very quickly. It isn't good for much, but I stuck it in here anyway. Mostly, notice how much blurrier the pillbox is than an Airy pattern with the same disk size.</p>
+<pre class="codeinput">patchSize = airyDisk(700,oiGet(oi,<span class="string">'optics fnumber'</span>),<span class="string">'units'</span>,<span class="string">'mm'</span>);
+optics    = siSynthetic(<span class="string">'pillbox'</span>,oi , patchSize);
+
+<span class="comment">% Attach the optics to the oi (optical image)</span>
+oi = oiSet(oi,<span class="string">'optics'</span>,optics);
+
+<span class="comment">% Setthe model to shift invariant</span>
+<span class="comment">% oi = oiSet(oi,'optics model','shiftInvariant');</span>
+
+<span class="comment">% Apply the optics to the checkerboard scene.</span>
+oi = oiCompute(oi,scene);
+oi = oiSet(oi,<span class="string">'name'</span>,<span class="string">'Pillbox'</span>);
+
+<span class="comment">% Add to the database and show the OI window</span>
+oiWindow(oi);
+
+xpsf{1} = oiGet(oi,<span class="string">'optics psf xaxis'</span>);
+</pre>
+<h2 id="5">Example 2: A wavelength-dependent Lorentizian</h2>
+<p>The Lorentzian gamma parameter seems to run nicely from 1 to 10 or so on this support. Log spacing converts better to spread than linear spacing.</p>
+<pre class="codeinput">psfType    = <span class="string">'lorentzian'</span>;
+nWave      = oiGet(oi,<span class="string">'nwave'</span>);
+gParameter = logspace(0,1,nWave);
+optics     = siSynthetic(psfType,oi,gParameter);
+
+oi = oiSet(oi,<span class="string">'optics'</span>,optics);
+oi = oiCompute(oi,scene);
+oi = oiSet(oi,<span class="string">'name'</span>,<span class="string">'Lorentzian'</span>);
+oiWindow(oi);
+<span class="comment">%  psfMovie(optics,ieNewGraphWin);</span>
+
+xpsf{2} = oiGet(oi,<span class="string">'optics psf xaxis'</span>);
+</pre>
+<h2 id="6">Example 3: A circular Gaussian PSF that changes with wavelength</h2>
+<p>The spread of the Gaussian increases with wavelength, so the long wavelength PSF is much blurrier than the short wavelength PSF. Look for the color fringing in the oiWindow.</p>
+<pre class="codeinput">wave    = oiGet(oi,<span class="string">'wave'</span>);
+psfType = <span class="string">'gaussian'</span>;
+waveSpread = 0.5*(wave/wave(1)).^3;
+
+<span class="comment">% Make point spreads with a circular bivariate Gaussian</span>
+xyRatio = ones(1,length(wave));
+
+<span class="comment">% Now call the routine with these parameters</span>
+optics  = siSynthetic(psfType,oi,double(waveSpread),xyRatio);
+oi      = oiSet(oi,<span class="string">'optics'</span>,optics);
+
+<span class="comment">% Here is the rest of the computation, as above</span>
+oi  = oiSet(oi,<span class="string">'optics model'</span>,<span class="string">'shiftInvariant'</span>);
+scene   = ieGetObject(<span class="string">'scene'</span>);
+oi      = oiCompute(oi,scene);
+
+oi = oiSet(oi,<span class="string">'name'</span>,<span class="string">'Gaussian'</span>);
+oiWindow(oi);
+
+xpsf{3} = oiGet(oi,<span class="string">'optics psf xaxis'</span>);
+</pre>
+<h2 id="7">Diffraction limited</h2>
+<pre class="codeinput">oi = oiCreate(<span class="string">'wvf'</span>);
+oi      = oiCompute(oi,scene);
+oi = oiSet(oi,<span class="string">'name'</span>,<span class="string">'Airy'</span>);
+oiWindow(oi);
+
+xpsf{4} = oiGet(oi,<span class="string">'optics psf xaxis'</span>);
+</pre>
+<h2 id="8">Compare multiple oi images</h2>
+<pre class="codeinput">lst = [4,3,2,1];
+[~,hdl] = imageMultiview(<span class="string">'oi'</span>,lst,1);
+<span class="comment">% exportgraphics(hdl,fullfile(imgDir,'optics-siKernels-image.png'));</span>
+</pre>
+<h2 id="9">Plot the cross sections</h2>
+<pre class="codeinput">sym = {<span class="string">'r--'</span>,<span class="string">'b--'</span>,<span class="string">'k--'</span>,<span class="string">'p-'</span>};
+hdl = ieFigure;
+
+<span class="comment">% DL, Gauss, Lorenz, Pillbox</span>
+
+h = [];
+<span class="keyword">for</span> ii=1:numel(lst)
+    h(ii) = plot(xpsf{lst(ii)}.samp,xpsf{lst(ii)}.data/max(xpsf{lst(ii)}.data),sym{ii});
+    hold <span class="string">on</span>; grid <span class="string">on</span>;
+<span class="keyword">end</span>
+set(gca,<span class="string">'xlim'</span>,[-15 15]);
+set(gca,<span class="string">'ylim'</span>,[-0.1 1.1]);
+
+iePlotShadeBackground(hdl.CurrentAxes);
+
+leg = legend(h(1:4),{<span class="string">'Airy'</span>,<span class="string">'Lorentzian'</span>,<span class="string">'Gaussian'</span>,<span class="string">'pillbox'</span>});
+leg.FontSize = 20;
+xlabel(<span class="string">'Position (um)'</span>); ylabel(<span class="string">'Normalized amplitude (a.u.)'</span>)
+<span class="comment">% exportgraphics(hdl,fullfile(imgDir,'optics-siKernels-graph.png'));</span>
+
+fprintf(<span class="string">'Airy disk radius is %f um\n'</span>,patchSize*1e3);
+</pre>
+<h2 id="10">A shift invariant bivariate normal psf</h2>
+<p>This example makes a Gaussian that is narrow in one direction and broad in the other. This orientation difference is called <i>astigmatism</i>.</p>
+<pre class="codeinput">oi = oiCreate(<span class="string">'psf'</span>);
+
+wave    = oiGet(oi,<span class="string">'wave'</span>);
+psfType = <span class="string">'gaussian'</span>;
+waveSpread = 0.5*(wave/wave(1)).^3;
+
+<span class="comment">% Make point spreads with a bivariate Gaussian.</span>
+<span class="comment">% If sFactor &lt; 1, then x (horizontal) is sharper.</span>
+<span class="comment">% If sFactor &gt; 1, then y (vertical)   is sharper.</span>
+sFactor = 2;
+xyRatio = sFactor*ones(1,length(wave));
+
+<span class="comment">% Now call the routine with these parameters</span>
+optics  = siSynthetic(psfType,oi,double(waveSpread),xyRatio);
+oi      = oiSet(oi,<span class="string">'optics'</span>,optics);
+
+<span class="comment">% Here is the rest of the computation, as above</span>
+oi  = oiSet(oi,<span class="string">'optics model'</span>,<span class="string">'shiftInvariant'</span>);
+scene   = ieGetObject(<span class="string">'scene'</span>);
+oi      = oiCompute(oi,scene);
+
+oi = oiSet(oi,<span class="string">'name'</span>,sprintf(<span class="string">'Chromatic Gaussian ratio %.1f'</span>,sFactor));
+oiWindow(oi);
+
+xpsf{5} = oiGet(oi,<span class="string">'optics psf xaxis'</span>);
+</pre>
+<h2 id="11">Show the PSF as a function of wavelength in a movie</h2>
+<pre class="codeinput">oiPlot(oi,<span class="string">'psf'</span>,550);
+<span class="comment">% psfMovie(oiGet(oi,'optics'),ieFigure,0.1);</span>
+</pre>
+<h2 id="12">Compare a horizontal and vertical line</h2>
+<pre class="codeinput">
+<span class="comment">% Find the xy coordinates of the middle of the data</span>
+sz = oiGet(oi,<span class="string">'size'</span>);
+[~,center] = getMiddleMatrix(oiGet(oi,<span class="string">'photons'</span>),sz);
+xyMiddle = center(1:2);
+
+<span class="comment">% Plot through the middle</span>
+vData = oiPlot(oi,<span class="string">' illuminance vline'</span>,xyMiddle,<span class="string">'nofigure'</span>);
+hData = oiPlot(oi,<span class="string">' illuminance hline'</span>,xyMiddle,<span class="string">'nofigure'</span>);
+
+ieFigure;
+plot(vData.pos,vData.data,<span class="string">'r-'</span>,hData.pos,hData.data,<span class="string">'b-'</span>);
+grid <span class="string">on</span>; xlabel(<span class="string">'Position'</span>); ylabel(<span class="string">'Illuminance (lux)'</span>);
+legend({<span class="string">'vertical'</span>,<span class="string">'horizontal'</span>});
+</pre>
+<h2 id="13">Plot the spectral irradiance of a horizontal and a vertical line</h2>
+<p>You can see the wavelength-dependent blur in this rendition with space on one axis and wavelength on the other. The spread of the light is smaller at the short wavelengths and increases at the long wavelengths.</p>
+<pre class="codeinput">oiPlot(oi,<span class="string">' irradiance hline'</span>,center); colormap(<span class="string">'jet'</span>);
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2025b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Shift-invariant PSF examples
+% This script shows how to use shift-invariant optics with Gaussian, Lorentzian 
+% and Pillbox point spread functions (PSFs).
+% 
+% The script calculates the impact of these PSFs on a simple grid scene, visualizing 
+% the outcome in an optical image window.
+% 
+% PSFs are generated using _`siSynthetic`_, which supports various types and 
+% introduces wavelength-dependent chromatic aberrations. Read the siSynthetic 
+% function to learn how to create optics using a defined PSF.  The utility _ieSaveSIDataFile_ 
+% may also be helpful.
+% 
+% *See also:* siSynthetic, ieSaveSIDataFile
+% 
+% *Formatting notes:*
+%% 
+% * Export to HTML in the code/ directory
+% * Run:  fise_setHTMLImageSize('fise_opticsPSF.html', 'fise_opticsPSF.html', 
+% 600)
+% * Visualize using:  web('fise_opticsPSF.html')
+%% Initialize
+
+ieInit;
+fise_plotDefaults;
+imgDir = fullfile(fiseRootPath,'chapters','images','optics');
+%% Create the scene
+
+imSize = [256 256];
+spacing = 64;
+thickness = 3;
+scene = sceneCreate('grid lines',imSize,spacing,'ee',thickness);
+
+% We make a small field of view so that we close up view of the details.
+scene = sceneSet(scene,'fov',2);
+
+sceneWindow(scene);
+
+oi = oiCreate('psf');
+%% Example 1: Create a pillbox point spread function
+% The pillbox was often used in the past because it can be computed very quickly.  
+% It isn't good for much, but I stuck it in here anyway.  Mostly, notice how much 
+% blurrier the pillbox is than an Airy pattern with the same disk size.
+
+
+patchSize = airyDisk(700,oiGet(oi,'optics fnumber'),'units','mm');
+optics    = siSynthetic('pillbox',oi , patchSize);
+
+% Attach the optics to the oi (optical image)
+oi = oiSet(oi,'optics',optics);
+
+% Setthe model to shift invariant
+% oi = oiSet(oi,'optics model','shiftInvariant');
+
+% Apply the optics to the checkerboard scene.
+oi = oiCompute(oi,scene);
+oi = oiSet(oi,'name','Pillbox');
+
+% Add to the database and show the OI window
+oiWindow(oi);
+
+xpsf{1} = oiGet(oi,'optics psf xaxis');
+%% Example 2: A wavelength-dependent Lorentizian
+% The Lorentzian gamma parameter seems to run nicely from 1 to 10 or so on this 
+% support. Log spacing converts better to spread than linear spacing.
+
+psfType    = 'lorentzian';
+nWave      = oiGet(oi,'nwave');
+gParameter = logspace(0,1,nWave);
+optics     = siSynthetic(psfType,oi,gParameter);
+
+oi = oiSet(oi,'optics',optics);
+oi = oiCompute(oi,scene);
+oi = oiSet(oi,'name','Lorentzian');
+oiWindow(oi);
+%  psfMovie(optics,ieNewGraphWin);
+
+xpsf{2} = oiGet(oi,'optics psf xaxis');
+%% Example 3: A circular Gaussian PSF that changes with wavelength
+% The spread of the Gaussian increases with wavelength, so the long wavelength 
+% PSF is much blurrier than the short wavelength PSF.  Look for the color fringing 
+% in the oiWindow.
+
+wave    = oiGet(oi,'wave');
+psfType = 'gaussian';
+waveSpread = 0.5*(wave/wave(1)).^3;
+
+% Make point spreads with a circular bivariate Gaussian
+xyRatio = ones(1,length(wave));
+
+% Now call the routine with these parameters
+optics  = siSynthetic(psfType,oi,double(waveSpread),xyRatio);
+oi      = oiSet(oi,'optics',optics);
+
+% Here is the rest of the computation, as above
+oi  = oiSet(oi,'optics model','shiftInvariant');
+scene   = ieGetObject('scene');
+oi      = oiCompute(oi,scene);
+
+oi = oiSet(oi,'name','Gaussian');
+oiWindow(oi);
+
+xpsf{3} = oiGet(oi,'optics psf xaxis');
+%% Diffraction limited
+
+oi = oiCreate('wvf');
+oi      = oiCompute(oi,scene);
+oi = oiSet(oi,'name','Airy');
+oiWindow(oi);
+
+xpsf{4} = oiGet(oi,'optics psf xaxis');
+%% Compare multiple oi images
+
+lst = [4,3,2,1];
+[~,hdl] = imageMultiview('oi',lst,1);
+% exportgraphics(hdl,fullfile(imgDir,'optics-siKernels-image.png'));
+%% Plot the cross sections
+
+sym = {'rREPLACE_WITH_DASH_DASH','bREPLACE_WITH_DASH_DASH','kREPLACE_WITH_DASH_DASH','p-'};
+hdl = ieFigure;
+
+% DL, Gauss, Lorenz, Pillbox
+
+h = [];
+for ii=1:numel(lst)
+    h(ii) = plot(xpsf{lst(ii)}.samp,xpsf{lst(ii)}.data/max(xpsf{lst(ii)}.data),sym{ii}); 
+    hold on; grid on;
+end
+set(gca,'xlim',[-15 15]);
+set(gca,'ylim',[-0.1 1.1]);
+
+iePlotShadeBackground(hdl.CurrentAxes);
+
+leg = legend(h(1:4),{'Airy','Lorentzian','Gaussian','pillbox'});
+leg.FontSize = 20;
+xlabel('Position (um)'); ylabel('Normalized amplitude (a.u.)')
+% exportgraphics(hdl,fullfile(imgDir,'optics-siKernels-graph.png'));
+
+fprintf('Airy disk radius is %f um\n',patchSize*1e3);
+%% A shift invariant bivariate normal psf
+% This example makes a Gaussian that is narrow in one direction and broad in 
+% the other. This orientation difference is called _astigmatism_.
+
+oi = oiCreate('psf');
+
+wave    = oiGet(oi,'wave');
+psfType = 'gaussian';
+waveSpread = 0.5*(wave/wave(1)).^3;
+
+% Make point spreads with a bivariate Gaussian.
+% If sFactor < 1, then x (horizontal) is sharper.
+% If sFactor > 1, then y (vertical)   is sharper.
+sFactor = 2;
+xyRatio = sFactor*ones(1,length(wave));
+
+% Now call the routine with these parameters
+optics  = siSynthetic(psfType,oi,double(waveSpread),xyRatio);
+oi      = oiSet(oi,'optics',optics);
+
+% Here is the rest of the computation, as above
+oi  = oiSet(oi,'optics model','shiftInvariant');
+scene   = ieGetObject('scene');
+oi      = oiCompute(oi,scene);
+
+oi = oiSet(oi,'name',sprintf('Chromatic Gaussian ratio %.1f',sFactor));
+oiWindow(oi);
+
+xpsf{5} = oiGet(oi,'optics psf xaxis');
+%% Show the PSF as a function of wavelength in a movie
+
+oiPlot(oi,'psf',550);
+% psfMovie(oiGet(oi,'optics'),ieFigure,0.1);
+%% Compare a horizontal and vertical line
+
+% Find the xy coordinates of the middle of the data
+sz = oiGet(oi,'size');
+[~,center] = getMiddleMatrix(oiGet(oi,'photons'),sz);
+xyMiddle = center(1:2);
+
+% Plot through the middle
+vData = oiPlot(oi,' illuminance vline',xyMiddle,'nofigure');
+hData = oiPlot(oi,' illuminance hline',xyMiddle,'nofigure');
+
+ieFigure;
+plot(vData.pos,vData.data,'r-',hData.pos,hData.data,'b-');
+grid on; xlabel('Position'); ylabel('Illuminance (lux)');
+legend({'vertical','horizontal'});
+%% Plot the spectral irradiance of a horizontal and a vertical line
+% You can see the wavelength-dependent blur in this rendition with space on 
+% one axis and wavelength on the other. The spread of the light is smaller at 
+% the short wavelengths and increases at the long wavelengths.
+
+oiPlot(oi,' irradiance hline',center); colormap('jet');
+%%
+##### SOURCE END #####
+-->
+</body>
+</html>

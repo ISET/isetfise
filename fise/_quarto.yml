@@ -1,0 +1,9 @@
+project:
+  type: website
+  output-dir: ../code
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    
