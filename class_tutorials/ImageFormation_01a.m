@@ -13,6 +13,7 @@
 % *Date*: 01.02.96 (First drafted) 
 % 
 % *Duration*: 90 minutes
+
 %% Initialize ISET
 % At some point, I will tell you what this does.  But for now, just take it 
 % as an initialization of the ISET tools.  As you will see below, we often use 
@@ -36,7 +37,7 @@ viewingDistance = 0.5
 imageHeight = 0.05
 %% Geometric angle calculation
 
-ieNewGraphWin;
+ieFigure;
 plot(viewingDistance,0,'o'); hold on
 thisL = line([0 viewingDistance 0 0],[0 0 imageHeight 0]);
 thisL.LineWidth = 2;
@@ -101,15 +102,20 @@ ls = 0.47*exp(-3.3 *(xMin.^2)) + 0.53*exp(-0.93*abs(xMin));
 % And we normalize the ls assuming that no light is lost.
 ls = ls / sum(ls);
 
-ieNewGraphWin;
+ieFigure;
 plot(xSec,ls)
 set(gca,'xlim',[-240 240],'xtick',(-240:60:240)), grid  on
 xlabel('Arc sec'), ylabel('Responsivity'), title('Westheimer Linespread')
+
 %% Thought question
+%{
 % In the previous section, we calculated the spacing of the dots in a 600 dpi 
 % printer (secPerDot). Compare that spacing with the sec of visual angle apart.  
 % Does this linespread help you think about whether this separation of two points 
 % should be visible to a person?
+
+%}
+
 %% The Westheimer function and the Fourier Transform (FFT)
 % The modulation transfer function (MTF) describes how the amplitude of each 
 % harmonic is scaled by the optics.  If we know the linespread function, we can 
@@ -122,11 +128,12 @@ westheimerMTF = abs(fft(westheimerLSF(xSec)));
 
 % One cycle spans 10 min of arc, so freq=1 is 6 c/deg
 freq = (0:11)*6;
-ieNewGraphWin;
+ieFigure;
 semilogy(freq,westheimerMTF(1:12)); grid on;
 xlabel('Freq (cpd)'); ylabel('Relative contrast');
 set(gca,'ylim',[0 1.1])
 title('Westheimer MTF');
+
 %% Convolution of the image and linespread
 % We can estimate the retinal image from a document printed at 600 dpi using 
 % the following simple convolution calculation. Suppose the image spans 0.2 deg 
@@ -143,9 +150,10 @@ im(1:dotSpacing:length(im)) = ones(size(im(1:dotSpacing:length(im))));
 
 % Here is an image showing the sampled line positions
 % (The lines represent a printer dot)
-ieNewGraphWin;
+ieFigure;
 imshow(im(ones(1,128),1:512))
 title('Image of line stimulus');
+
 %% 
 % Each line in the physical image adds a unit linespread to the retinal image.  
 % We can compute the retinal image by forming the convolution of the image with 
@@ -154,10 +162,11 @@ title('Image of line stimulus');
 
 retIm = conv2(ls,im,'full');
 
-ieNewGraphWin;
+ieFigure;
 plot(retIm),grid on
 title('The one-dimensional retinal image')
 xlabel('Sec of arc'), ylabel('Retinal image irradiance')
+
 %% 
 % While the original image varies from black to white, after blurring by the 
 % eye's optics, there is only a small amount of residual variation in the retinal 
@@ -173,24 +182,34 @@ gKernel = fspecial('gaussian',[1,30],2);
 blurIm = conv2(im,gKernel,'full');     % Ink blur on page
 retIm  = conv2(blurIm,ls,'full');      % Now the eye
 
-ieNewGraphWin;
+ieFigure;
 imshow(blurIm(ones(1,128),1:512),[]);
 title('Image of line stimulus blurred by ink width');
+
+%{
+
+
+%}
 %% 
 % Notice the very small ripples left in the curve after taking into account 
 % the blurring by the physical display and by the eye.
 
-ieNewGraphWin;
+ieFigure;
 plot(retIm), axis square, grid on
 title('Retinal image of blurred lines')
 xlabel('Sec of arc'), ylabel('Retinal image irradiance')
+
 %% Thought question
+%{
 % The question you might ask yourself now is this: will those small ripples 
 % be detectable by people looking at the screen?  How can we tell? You might also 
 % ask what will happen when we view the page at 6 inches, or at 24 inches.  What 
 % if we increase the printer resolution to 1200 dpi?  What if we introduce some 
 % ability to modulate the density of the ink and hence the light scattered back 
 % to the eye? We can answer these kinds of questions using ISET simulations. 
+
+%}
+
 %% The linespread in the frequency domain (MTF)
 % Let's make a new linespread function that is sampled less finely and thus 
 % easier to compute with.  Also, we make it extend over 1 deg (60 min) so the 
@@ -201,7 +220,7 @@ xlabel('Sec of arc'), ylabel('Retinal image irradiance')
 xMin = -30:1:29;
 ls = westheimerLSF(xMin*60);
 
-ieNewGraphWin;
+ieFigure;
 plot(xMin,ls), grid on
 xlabel('Min of arc'),ylabel('Linespread value')
 nSamples = length(xMin);
@@ -209,7 +228,7 @@ nSamples = length(xMin);
 % Now, calculate the retinal image for different harmonics, as the
 % frequency increases.  We store the amplitude of the cosinusoid in
 % the variable "peak".
-ieNewGraphWin;
+ieFigure;
 freq =[1 5 10 15];
 peak = zeros(1,length(freq));
 for i = 1:length(freq)
@@ -220,13 +239,14 @@ for i = 1:length(freq)
     xlabel('Arc sec')
     peak(i) = max(retIm(:));
 end
+
 %% MTF - Calculated two ways
 % Using the above, we can develop some intuition about the MTF. We calculate 
 % it in two different ways. First, we plot the amplitude of the retinal cosinusoid. 
 % Its amplitude decreases with the input frequency.  Next, we calculate the Fourier 
 % Transform of the linespread and plot the values at these frequencies (red circles). 
 
-ieNewGraphWin;
+ieFigure;
 plot([0 freq],[1 peak],'-');      % At freq = 0 the MTF is 1, by definition
 set(gca,'ylim',[0 1])
 xlabel('Spatial freq (cpd)'), ylabel('Transfer')
@@ -248,7 +268,7 @@ xMin = xSec/60;
 ls = 0.47*exp(-3.3 *(xMin.^2)) + 0.53*exp(-0.93*abs(xMin));
 ps = 0.952*exp(-2.59*abs(xMin).^1.36) + 0.048*exp(-2.43*abs(xMin).^1.74);
 
-ieNewGraphWin;
+ieFigure;
 p = plot(xSec,ps,'r-',xSec,ls,'b--'); grid on
 set(gca,'xlim',[-180 180])
 xlabel('Arc sec'), ylabel('LS or PS amplitude')
@@ -266,11 +286,12 @@ D = X.^2 + Y.^2; D = D.^0.5;
 
 % Then, compute the pointspread function and make a picture of it
 ps = 0.952*exp(-2.59*abs(D).^1.36) + 0.048*exp(-2.43*abs(D).^1.74);
-ieNewGraphWin;
+ieFigure;
 colormap(jet(256)), mesh(ps)
 
 % To see the pointspread as an image, rather than as a mesh plot,
 % you might make this figure: colormap(gray(32)),imagesc(ps), axis image
+
 %% Chromatic aberration: How the linespread varies with wavelength
 % The linespread varies quite strongly with wavelength.  When the eye is in 
 % good focus at 580 nm (yellow-part of the spectrum) the light in the short-wavelength 
@@ -291,7 +312,7 @@ load(fileName,'lineSpread','xDim','wave');
 % functions together. Notice that for the shorter wavelength, the linespread function 
 % is much more spread-out than for the middle and long wavelengths.
 
-ieNewGraphWin;
+ieFigure;
 plot(xDim, lineSpread(80, :), 'b-', xDim, lineSpread(200,:), ...
     'g:', xDim, lineSpread(361, :), 'r--' ,...
     'lineWidth',2);
@@ -301,7 +322,7 @@ title('Linespread functions for three wavelengths');
 
 %  Look at the line spread functions for several wavelengths
 lw = 1:10:length(wave);
-ieNewGraphWin;
+ieFigure;
 colormap(hot(32));
 mesh(xDim, wave(lw), lineSpread(lw,:));
 set(gca,'xlim',[-1 1],'ylim',[350 730])
@@ -338,7 +359,7 @@ X = (-size(retIm,2)/2 : ((size(retIm, 2)/2) - 1)) / 64;
 % would be quite easy to detect.
 
 
-ieNewGraphWin;
+ieFigure;
 subplot(2,1,1)
 plot(X,retIm(201,:),'g-')
 set(gca,'ylim',[0 0.5])
@@ -357,8 +378,6 @@ grid on
 mean(retIm(50,:),2)
 mean(retIm(200,:),2)
 
-%% 
-% At this point, you can answer Questions #3 on "Homework 1: Image Formation."
 %% Chromatic aberration in the frequency domain
 % Finally, let's make a few graphs of the modulation transfer function of the 
 % eye's optical system for individual wavelengths.  For short wavelength lights, 
@@ -373,7 +392,7 @@ load('combinedOtf','combinedOtf','sampleSf');
 
 % Here is a graph of the MTFs at different wavelengths.  The differences reflect
 % the chromatic aberration of the human eye.
-ieNewGraphWin;
+ieFigure;
 plot(sampleSf, combinedOtf(81, :), 'b-', ...
     sampleSf, combinedOtf(201,:), ...
     'g:', sampleSf, combinedOtf(361, :), 'r--' ,...
@@ -387,6 +406,7 @@ title('Modulation transfer functions for 3 wavelengths');
 % the opposite phase compared to the input harmonic.  Hence, the amplitude is 
 % represented by a negative number.  This can be illustrated using slide projector, 
 % and the phenomenon is called "spurious resolution."
+
 %% More modern Linespreads, Pointspreads, and MTFs
 % Ijspeert and others in the Netherlands developed a more extensive set of functions 
 % to predict the basic image formation variables in the average human eye.  The 
@@ -419,7 +439,7 @@ iLSF = iLSF/sum(iLSF);
 % These are the modulation transfer function and linespread for the ijspeert 
 % calculation
 
-ieNewGraphWin; %clf
+ieFigure; %clf
 subplot(1,2,1), plot(iMTF); grid on
 set(gca,'xtick',(0:10:80),'xlim',[0 80]);
 xlabel('Spatial frequency (cpd)');
@@ -439,7 +459,7 @@ ls = 0.47*exp(-3.3 *(xMin.^2)) + 0.53*exp(-0.93*abs(xMin));
 ls = ls / sum(ls);
 westMTF = abs(fft(ls));
 
-ieNewGraphWin;
+ieFigure;
 plot(angleInSec/60,iLSF,'b-',angleInSec/60,ls,'r-')
 set(gca,'xtick',(-8:2:8),'xlim',[-6 6]);
 xlabel('Position (min)'), ylabel('Intensity'), title('Linespread')
@@ -449,7 +469,7 @@ grid on
 % Data from colleagues
 load('williams','dhb','drw','rnb','dataF');
 
-ieNewGraphWin;
+ieFigure;
 n = length(iMTF);
 freq = 0:(n-1);
 plot(freq,iMTF(1:n),'b-',freq,westMTF(1:n),'r-')
@@ -483,14 +503,14 @@ for ii=1:nSamples
         freqIndexRange, a);
 end
 
-ieNewGraphWin;
+ieFigure;
 colormap(autumn(128));
 surf(angleInRad2D,angleInRad2D,iPSF2D);
 %% Using ISET to Visualize Defocus of Diffraction-limited Optics
 % Here we'll create and plot the test scene:
 
 % Our first step is to create a scene comprising a multispectral line, with equal photons
-scene = sceneCreate('line ep',128);    % A thin line, equal photon radiance at each wavelength
+scene = sceneCreate('line ep',[128,128]);    % A thin line, equal photon radiance at each wavelength
 scene = sceneSet(scene,'fov', 0.5);    % Small field of view (deg)
 sceneWindow(scene);       % Save it in the database and show
 
