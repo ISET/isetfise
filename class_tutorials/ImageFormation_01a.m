@@ -26,10 +26,10 @@ ieInit;
 % Engineers often describe the image in terms of the physical size and distance, 
 % say a paper 25 cm wide at a distance of 0.5 m from the camera.
 % 
-% Vision scientists find it very useful to specify the image in terms of the 
-% visual angle the image sweeps out at the camera (or eye). There is a relationship 
-% between the physical description of the object and the the degrees of visual 
-% angle. Suppose we read the paper at a viewing distance (meters)
+% Vision scientists and optical engineers find it very useful to specify
+% the image in terms of the visual angle the image sweeps out at the camera
+% (or eye). There is a relationship between the two descriptions. Suppose
+% we read the paper at a viewing distance (meters)
 
 viewingDistance = 0.5
 
@@ -43,11 +43,9 @@ thisL = line([0 viewingDistance 0 0],[0 0 imageHeight 0]);
 thisL.LineWidth = 2;
 axis equal
 set(gca,'xlim',[-0.1 viewingDistance + 0.1],'ylim',[-0.1 imageHeight + 0.1]), grid on
-xlabel('Viewing Distance (m)')
-ylabel('Image height (m)')
-grid on
-%% 
-% In degrees, the viewing angle, phi, satisfies
+xlabel('Viewing Distance (m)'); ylabel('Image height (m)'); grid on
+
+% In degrees, the viewing angle, $$\phi$$, satisfies
 % 
 % $$\tan \left(\phi \right)=\frac{\textrm{opposite}}{\textrm{adjacent}}$$
 
@@ -57,7 +55,7 @@ phi = atand(imageHeight/viewingDistance)
 % common specification for printers
 dpi = 600;
 
-% ISET has a convenient function to convert these units into meters per dot.
+% ISET has a function to convert dpi into meters per dot.
 meterPerDot = dpi2mperdot(dpi,'meters');
 
 % So there are this many dots in the imageHeight
@@ -72,15 +70,13 @@ minPerDot = 60*degPerDot;
 % and 60 sec of visual angle per min,
 secPerDot = 60*minPerDot;
 
-%% 
-% Perceptual experiments show that people see a difference between two lines 
-% that are offset by 6 sec of visual angle.  Hence, the dot spacing is wider than 
-% the spacing that can be discriminated by people. 
+%% Visibility of the dots
+%
+% Perceptual experiments show that people see a difference between two
+% lines that are offset by 6 sec of visual angle.  Hence, the dot spacing
+% is wider than the spacing that can be discriminated by people.
 % 
-% At this point, you can answer several of the questions in "Homework 1: Image 
-% Formation."
-% 
-% 
+
 %% The Westheimer linespread function
 % Westheimer was one of the first to estimate the linespread function of the 
 % human optics. He specified the spread of light at the back of the eye when the 
@@ -91,8 +87,8 @@ secPerDot = 60*minPerDot;
 % $$\textrm{ls}\left(x\right)=0\ldotp 47*\exp \left(-3\ldotp 3*x^2 \right)+0\ldotp 
 % 53*\exp \left(-0\ldotp 93*\textrm{abs}\left(x\right)\right)$$
 
-% Suppose we plot the linespread function at a slightly finer spatial resolution, 
-% in seconds of arc. 
+% Suppose we plot the linespread function at a spatial resolution of 1
+% second of arc. 
 xSec = -300:1:300;
 
 % To use the functional form from Westheimer we convert the units to minutes of arc
@@ -107,16 +103,22 @@ plot(xSec,ls)
 set(gca,'xlim',[-240 240],'xtick',(-240:60:240)), grid  on
 xlabel('Arc sec'), ylabel('Responsivity'), title('Westheimer Linespread')
 
+%{
+How would you change the calculation of you thought there is a loss of
+light through the lens? What reasons could there be that light would be
+lost as it traverses the lens?
+%}
+
 %% Thought question
 %{
-% In the previous section, we calculated the spacing of the dots in a 600 dpi 
-% printer (secPerDot). Compare that spacing with the sec of visual angle apart.  
-% Does this linespread help you think about whether this separation of two points 
-% should be visible to a person?
-
+In the previous section, we calculated the spacing of the dots in a 600 dpi 
+printer (secPerDot). Compare that spacing with the sec of visual angle apart.  
+Does this linespread help you think about whether this separation of two points 
+should be visible to a person?
 %}
 
 %% The Westheimer function and the Fourier Transform (FFT)
+%
 % The modulation transfer function (MTF) describes how the amplitude of each 
 % harmonic is scaled by the optics.  If we know the linespread function, we can 
 % calculate the MTF using the Fast Fourier Transform. In this code snippet, we 
@@ -134,10 +136,15 @@ xlabel('Freq (cpd)'); ylabel('Relative contrast');
 set(gca,'ylim',[0 1.1])
 title('Westheimer MTF');
 
+%{
+Can you explain why spanning 10 min of arc means that the first spatial
+frequency is 6 cycles per degree?
+%}
+
 %% Convolution of the image and linespread
-% We can estimate the retinal image from a document printed at 600 dpi using 
-% the following simple convolution calculation. Suppose the image spans 0.2 deg 
-% and has a dot every 30 arc sec.
+% We can estimate the retinal image from a document printed at 600 dpi
+% using the following calculation. Suppose the image spans 0.2 deg and has
+% a dot every 30 arc sec.
 
 % Make a 1-d image
 imageWidth = 0.2;               % deg
@@ -154,7 +161,8 @@ ieFigure;
 imshow(im(ones(1,128),1:512))
 title('Image of line stimulus');
 
-%% 
+%%  The retinal image
+%
 % Each line in the physical image adds a unit linespread to the retinal image.  
 % We can compute the retinal image by forming the convolution of the image with 
 % the Westheimer linespread function.  Remember: we sampled the linespread once 
@@ -167,15 +175,12 @@ plot(retIm),grid on
 title('The one-dimensional retinal image')
 xlabel('Sec of arc'), ylabel('Retinal image irradiance')
 
-%% 
-% While the original image varies from black to white, after blurring by the 
-% eye's optics, there is only a small amount of residual variation in the retinal 
-% image.  Because of the blurring, the retinal image is much more likely the image 
-% of a bar than it is the image of a set of individual lines.
-% 
-% In fact, the dots placed on the page are not perfect line samples.  Each ink 
-% line has some width.  So, a more realistic input image might be created by blurring 
-% the stimulus and then convolving with the linespread.
+%% Thinking about the original stimulus
+%
+% While the digital image varies from black to white, the dots placed on
+% the page are not perfect line samples.  Each ink line has some width.
+% So, a more realistic input image might be created by blurring the
+% input stimulus and then convolving with the linespread.
 
 % This produces a little Gaussian window for filtering
 gKernel = fspecial('gaussian',[1,30],2);
@@ -187,10 +192,12 @@ imshow(blurIm(ones(1,128),1:512),[]);
 title('Image of line stimulus blurred by ink width');
 
 %{
-
-
+How could you use simulation to estimate whether the blurring by the ink is
+significant to a human viewer? 
 %}
-%% 
+
+%% The final result
+%
 % Notice the very small ripples left in the curve after taking into account 
 % the blurring by the physical display and by the eye.
 
@@ -201,19 +208,24 @@ xlabel('Sec of arc'), ylabel('Retinal image irradiance')
 
 %% Thought question
 %{
-% The question you might ask yourself now is this: will those small ripples 
-% be detectable by people looking at the screen?  How can we tell? You might also 
-% ask what will happen when we view the page at 6 inches, or at 24 inches.  What 
-% if we increase the printer resolution to 1200 dpi?  What if we introduce some 
-% ability to modulate the density of the ink and hence the light scattered back 
-% to the eye? We can answer these kinds of questions using ISET simulations. 
-
+The question you might ask yourself now is this: will those small ripples
+be detectable by people looking at the screen?  How can we tell? You might
+also ask what will happen when we view the page at 6 inches, or at 24
+inches.  What if we increase the printer resolution to 1200 dpi?  What if
+we introduce some ability to modulate the density of the ink and hence the
+light scattered back to the eye? We can answer these kinds of questions
+using ISET simulations.
 %}
 
 %% The linespread in the frequency domain (MTF)
 % Let's make a new linespread function that is sampled less finely and thus 
 % easier to compute with.  Also, we make it extend over 1 deg (60 min) so the 
 % Fourier Transform is easier to interpret
+
+%{
+Why did I say that having the calculation extend over 1 deg makes the
+spatial frequencies easier to interpret?
+%}
 
 % We often encapsulate formulae that frequently use in functions. The
 % Westheimer function was useful for some years and so here it is.
