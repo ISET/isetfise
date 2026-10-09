@@ -156,3 +156,11 @@ title(sprintf('Line sep %d',sep));
 data2 = oiPlot(oi2,'illuminance hline',[1 256]);
 set(gca,'xlim',[-120 120],'xtick',(-120:10:120),'ylim',[0 5]); 
 title(sprintf('Line sep %d',sep));
+
+%% Thought question
+%{
+Rerun the two-lens grid-line calculation with separations of 16, 8, 4,
+and 2. Compare the mean illuminance and the line patterns for each lens.
+Why do lenses with equal f-number give similar mean illuminance while
+their line patterns differ?
+%}

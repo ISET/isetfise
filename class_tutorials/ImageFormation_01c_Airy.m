@@ -89,3 +89,12 @@ set(gcf,'userdata',udata);
 f = oiPlot(oi,'psf',[],500,'um');
 %% 
 %
+
+%% Thought question
+%{
+Calculate the Airy disk diameters at 450, 550, and 650 nm for the current
+f-number. Compute the PSF at each wavelength and estimate its diameter
+from the first dark ring. How closely do the measured and predicted
+diameters agree?
+%}
+%% 

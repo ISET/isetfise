@@ -70,4 +70,13 @@ gridSpacing = 5;
 oiPlot(oi2,'irradiance image with grid',[],gridSpacing);
 set(gca,'xlim',[-20 20],'ylim',[-20 20])
 title(sprintf('F-number = %d',fnBig))
+
+%% Thought question
+%{
+At 600 nm, choose three f-numbers, including fnSmall and fnBig. For each,
+calculate the predicted Airy disk diameter and use oiGet to measure the
+mean illuminance of the computed optical image. Plot both quantities
+against f-number. How do their trends differ, and why?
+%}
+
 %%

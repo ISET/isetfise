@@ -57,3 +57,11 @@ title(sprintf('F/# = %.0d',oiGet(oi,'optics f number')))
 uData
 %% 
 %
+
+%% Thought question
+%{
+Set the f-number to 6 and 12 and compute both optical images from the same
+point-array scene. Compare the images and their 550 nm PSFs. Use the
+wavelength linespread plot to determine which wavelengths blur more.
+Explain what you observe.
+%}
