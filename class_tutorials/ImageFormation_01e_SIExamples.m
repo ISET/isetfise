@@ -127,3 +127,12 @@ oi = oiSet(oi,'name','Asymmetric Gaussian');
 oiWindow(oi);
 %% 
 %
+
+%% Thought question
+%{
+Keep a copy of the optical image with the symmetric Gaussian PSF before
+loading the asymmetric one. At the same wavelength, compare horizontal
+and vertical checkerboard edge contrast for the two PSFs. How do the
+contrast differences relate to each PSF's width in the two directions?
+%}
+%% 
