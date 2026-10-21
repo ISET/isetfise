@@ -39,8 +39,8 @@ sceneWindow(scene);
 umPerSample = [0.25,0.25];                % Sample spacing
 
 % Point spread is a little square in the middle of the image
-h = zeros(128,128); h(48:79,48:79) = 1; h = h/sum(h(:));
-psf = zeros(128,128,length(wave));
+h = zeros(129,129); h(49:81,49:81) = 1; h = h/sum(h(:));
+psf = zeros(129,129,length(wave));
 for ii=1:length(wave), psf(:,:,ii) = h; end     % PSF data
 
 % Save the data
@@ -69,11 +69,11 @@ oiWindow(oi);
 % Now, we build a difference of Gaussians that will sharpen the original image 
 % a little.  This is the psf.
 
-h1 = fspecial('gaussian', 128, 5);
-h2 = fspecial('gaussian', 128, 10);
+h1 = fspecial('gaussian', 129, 5);
+h2 = fspecial('gaussian', 129, 10);
 h = h1 - 0.5*h2;
 vcNewGraphWin; mesh(h)
-psf = zeros(128,128,length(wave));
+psf = zeros(129,129,length(wave));
 for ii=1:length(wave), psf(:,:,ii) = h; end     % PSF data
 
 psfFile = fullfile(tempdir,'customFile');
