@@ -62,7 +62,7 @@ msensor = sensorAddNoise(msensor);
 % produces the shot noise distribution (variation in electrons due to photon noise)
 
 e = sensorGet(msensor,'electrons');
-r = range(e(:));
+r = max(e(:)) - min(e(:));
 nBins = min(r,50);  % Makes a nice plot
 
 ieNewGraphWin;
@@ -187,4 +187,16 @@ end
 % 
 % 
 % 
-%
+% Thought question 1
+% In "Experiments with spatial resolution," set fNumber = 4 and rerun the optical-image and MTF sections. 
+% Approximately where does the 2 µm pixel's MTF fall to 0.5, in cycles/mm (line pairs/mm)?
+% Repeat with fNumber = 12. Approximately where is the new MTF50?
+% At f/12, compare the 2 µm and 3 µm MTF curves. 
+% Is the resolution advantage of 2 µm pixels substantial? 
+% Explain using diffraction and pixel sampling.
+
+% Thought question 2
+% In the "Plot all the mtfData" section, look at the colored Nyquist markers 
+% near the bottom of the "MTF for different pixel sizes" figure. 
+% Why is the marker for the 2 µm pixels at 250 line pairs/mm? 
+% Show how the pixel pitch determines this frequency.
