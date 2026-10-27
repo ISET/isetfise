@@ -77,3 +77,8 @@ sensor = sensorCompute(sensor,oi);
 ieAddObject(sensor); sensorWindow;
 %% 
 %
+
+% Thought question
+% With the f/2 optics, changing from 2 µm to 6 µm pixels produces 
+% a slowly varying pattern in the sensor image. 
+% Why does this pattern not necessarily indicate a slowly varying pattern in the scene?

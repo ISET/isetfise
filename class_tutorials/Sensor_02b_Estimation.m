@@ -232,9 +232,8 @@ estimate = (sig(:,l)*pinv(spectral_signals(:,l)))';
 % constrains on the solution.
 % 
 % 
-% 
-% 
-% 
-% 
-% 
-%
+% Thought question
+% The estimated sensor sensitivities differ from the original curves, 
+% yet they predict the RGB responses of all 24 chart patches. How can both observations be true? 
+% Would accurate predictions for these patches establish that 
+% the sensor sensitivities have been uniquely recovered?
